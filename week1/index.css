@@ -1,0 +1,12 @@
+a {
+    color : yellow;
+}
+
+.test_class {
+    font-size: x-large;
+}
+
+#test_id {
+    font-size: xx-large;
+    color: skyblue;
+}

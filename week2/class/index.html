@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>HI</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    </head>
+    <body>
+        <header>
+            <!-- Logo Box -->
+            <div id="navbar_logo">
+                <a href="#"><i class="fab fa-apple"></i></a>
+                <a href="#">LOGO</a>
+            </div>
+
+            <!-- MENU Box -->
+            <ul id="navbar_menu" class="">
+                <li><a href="#">HOME</a></li>
+                <li><a href="#">Gallery</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">BOOKING</a></li>
+            </ul>
+
+            <!-- Icon Box -->
+            <ul id="navbar_icons" class="">
+                <li><a href="http://facebook.com"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            </ul>
+
+            <a href="#" class="navbar_toggleBtn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </header>
+    </body>
+</html>
+
+<script>
+    const toggleBtn = document.querySelector('.navbar_toggleBtn');
+    const menu = document.querySelector('#navbar_menu');
+    const icons = document.querySelector('#navbar_icons');
+
+    console.log(toggleBtn);
+
+    toggleBtn.addEventListener('click',() => {
+        menu.classList.toggle('active');
+        icons.classList.toggle('active');
+    })
+</script>

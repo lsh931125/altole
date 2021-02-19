@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>숫자맞추기 게임</title>
+    </head>
+    <body>
+        <label for="guessField">예상값 : </label>
+        <input type="text" id="guessField" class="guessField">
+        <input type="submit" value="제출" class="guessSubmit">
+        <input type="reset" value="다시" class="guessReset">
+
+        <p class="guessList"></p>
+        <p class="result"></p>
+    </body>
+</html>
+
+<script>
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    count = 1;
+    console.log(randomNumber);
+
+    const guessField = document.querySelector(".guessField");
+    const guessSubmit = document.querySelector(".guessSubmit");
+    const guessReset = document.querySelector(".guessReset");
+    const guessList = document.querySelector(".guessList");
+    const result = document.querySelector(".result");
+
+    guessSubmit.addEventListener('click',check);
+    function check () {
+        guessList.textContent = guessList.textContent + ' ' + guessField.value;
+        console.log(typeof randomNumber);
+        console.log(typeof guessField.value);
+        if (typeof(randomNumber) == typeof(Number(guessField.value))) {
+            count++;
+        }
+        if (randomNumber === Number(guessField.value)) {
+
+            guessSubmit.disabled = true;
+            guessField.disabled = true;
+            result.textContent = 'Success!';
+        } else if (randomNumber !== Number(guessField.value)) {
+            if (randomNumber > Number(guessField.value)){
+                result.textContent = 'UP!!!';
+            }
+            if (randomNumber < Number(guessField.value)){
+                result.textContent = 'DOWN!!!';
+            }
+        }
+
+        if (count > 10) {
+            result.textContent = 'Game Over!';
+            guessSubmit.disabled = true;
+            guessField.disabled = true;
+        }
+        guessField.value = null;
+        console.log(count);
+    }
+
+    guessReset.addEventListener('click',resetGame);
+    function resetGame() {
+        randomNumber = Math.floor(Math.random() * 100) + 1;
+        console.log(randomNumber);
+        guessList.textContent = '' ;
+        count = 1;
+        guessSubmit.disabled = false;
+        guessField.disabled = false;
+        result.textContent = 'New Game!';
+
+    }
+
+</script>
