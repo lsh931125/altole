@@ -17,5 +17,5 @@ print(numberList)
 
 bonus = soup.find('div', class_ = 'num bonus')
 bonus2 = bonus.find('span')
-numberList2.append()
+numberList.append(bonus2)
 print(bonus2.text)
