@@ -6,7 +6,7 @@ for no in range(1,11):
         'drwNo' : no,
         'drwNoList' : no
     }
-    res = requests.post('https://www.dhlottery.co.kr/gameResult.do?method=byWin',params)
+    res = requests.post('https://www.dhlottery.co.kr/gameResult.do?method=byWin',data = params)
     soup = BeautifulSoup(res.text,'html.parser')
 
     soup2 = soup.find('div', class_ = 'num win')
@@ -19,5 +19,8 @@ for no in range(1,11):
 
     bonus = soup.find('div', class_ = 'num bonus')
     bonus2 = bonus.find('span')
-    numberList.append(bonus2.text)
-    print(numberList)
+    print(bonus2)
+    # numberList.append(bonus2.text)
+    # print(numberList)
+    
+    
