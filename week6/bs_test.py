@@ -15,6 +15,7 @@ import requests
 from bs4 import BeautifulSoup
 
 res = requests.get('http://naver.com')
+print(res)
 # 첫 번째 인자값 = html내용, 두번째 인자값은 'html.parser'
 soup = BeautifulSoup(res.text,'html.parser')   # DOM 접근 가능.
 
@@ -36,4 +37,4 @@ soup = BeautifulSoup(res.text,'html.parser')   # DOM 접근 가능.
 # .find_all('태그명',조건)
 # 리스트 형태로 리턴됨
 
-print(soup.find_all('a', class_='thumb')[0])
+print(soup.find_all('a', class_ ="thumb"))
