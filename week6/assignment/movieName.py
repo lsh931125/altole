@@ -8,10 +8,10 @@ movieList = movieSite.find('ul', class_ = "lst_detail_t1")
 # print(type(movieList))
 # print(movieList)
 movie = []
-
-
+#
+#
 for i in movieList.find_all('dt',class_ = 'tit'):
     for f in i.find_all('a'):
         print(f.text)
-        # movie.append(f.text)
-# print(movie)
+        movie.append(f.text)
+print(movie)
