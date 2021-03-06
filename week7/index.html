@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>AJAK 통신</title>
+    </head>
+    <body>
+        비트코인 시작가 : <span class="opening_price">0</span>원
+    </body>
+</html>
+<script>
+    // 웹브라우저에서 페이지 이동없이 HTTP 요청을 보내는 것을
+    // AJAX 통신이라고 얘기한다.
+
+    const opening_price = document.querySelector('.opening_price');
+
+
+    fetch('https://api.bithumb.com/public/ticker/ALL_KRW')
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(result){
+            opening_price.innerText = result['data']['BTC']['opening_price']
+            console.log(result);
+        })
+</script>

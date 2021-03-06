@@ -7,11 +7,15 @@ movieSite = BeautifulSoup(res.text,'html.parser')
 movieList = movieSite.find('ul', class_ = "lst_detail_t1")
 # print(type(movieList))
 # print(movieList)
+
+#
+#
+# movie = movieList.find('')
 movie = []
-#
-#
 for i in movieList.find_all('dt',class_ = 'tit'):
-    for f in i.find_all('a'):
-        print(f.text)
-        movie.append(f.text)
+    movie.append(i.a.text)
+    # print(i.a.text)
+    # for f in i.find_all('a'):
+    #     print(f.text)
+    #     movie.append(f.text)
 print(movie)
