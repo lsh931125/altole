@@ -11,7 +11,7 @@ from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import time
 
-driver = webdriver.Chrome('D:\\altole\\altole\week8\chromedriver.exe')
+driver = webdriver.Chrome('D:\\altole\\altole\\week8\\chromedriver.exe')
 driver.get('https://www.dailytelegraph.com.au/search-results/')
 search = driver.find_element_by_css_selector(".search_box_form .search_box_input")
 time.sleep(3)

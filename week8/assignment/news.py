@@ -30,7 +30,7 @@ totalGet = []
 totalSoup = []
 totalList = []
 
-driver = webdriver.Chrome('D:\\altole\\altole\week8\chromedriver.exe')
+driver = webdriver.Chrome('D:\\altole\\altole\\week8\\chromedriver.exe')
 
 def res(a):
     for url in a.values():
