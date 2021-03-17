@@ -1,5 +1,5 @@
 # import requests
-# from bs4 import BeautifulSoup
+
 #
 # daily_url = 'https://www.dailytelegraph.com.au/search-results/?q=corona'
 # res = requests.get(daily_url)
@@ -8,18 +8,27 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from bs4 import BeautifulSoup
 import time
 
-driver = webdriver.Chrome('./chromedriver')
-driver.get('https://www.dailytelegraph.com.au/search-results/?q=')
-# driver.execute_script("document.getElementsByClassName('ais-SearchBox-input search_box_input').value = 'corona'")
-driver.find_element_by_xpath('//*[@id="searchInput"]/div/form/input').click()
-time.sleep(1)
-driver.find_element_by_xpath('//*[@id="searchInput"]/div/form/input').send_keys('corona')
-time.sleep(1)
-# print(driver.page_source)
-# driver.find_element_by_xpath('//*[@id="searchInput"]/div/form/input').send_keys(Keys.ENTER)
+driver = webdriver.Chrome('D:\\altole\\altole\week8\chromedriver.exe')
+driver.get('https://www.dailytelegraph.com.au/search-results/')
+search = driver.find_element_by_css_selector(".search_box_form .search_box_input")
+time.sleep(3)
+search.click()
+time.sleep(3)
+search.send_keys('corona')
+time.sleep(7)
 
+page = driver.page_source
+print(type(page))
+# print(news)
+soup = BeautifulSoup(page,'html.parser')
+# print(soup)
+listNews = soup.find_all('a', class_ = 'storyblock_title_link')
+# print(listNews[0].text)
 
-
-
+for i in listNews:
+    title = i.text
+    link = i.attrs['href']
+    print(f'제목 = {title}\n링크 = {link}')

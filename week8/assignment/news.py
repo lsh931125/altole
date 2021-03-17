@@ -18,30 +18,53 @@ site = {
         'url' : 'https://www.9news.com.au/coronavirus',
         'title' : [],
         'link' : []
+    },
+    'daily' : {
+
+        'title' : [],
+        'link' : []
     }
 }
 
 totalGet = []
 totalSoup = []
 totalList = []
-news = []
+
+driver = webdriver.Chrome('D:\\altole\\altole\week8\chromedriver.exe')
 
 def res(a):
     for url in a.values():
         # print(url['url'])
-        totalGet.append(requests.get(url['url']))
+        if 'url' in url:
+            totalGet.append(requests.get(url['url']))
+        else:
+            url['url'] = 'https://www.dailytelegraph.com.au/search-results/'
+            driver.get(url['url'])
+            search = driver.find_element_by_css_selector(".search_box_form .search_box_input")
+            time.sleep(3)
+            search.click()
+            time.sleep(3)
+            search.send_keys('corona')
+            time.sleep(7)
+            page = driver.page_source
+            totalGet.append(page)
+            # print(url['url'])
     return totalGet
 
 def soup(b):
     for soups in b:
         # print(soups)
-        totalSoup.append(BeautifulSoup(soups.text,'html.parser'))
+        if str(type(soups)) == "<class 'requests.models.Response'>":
+            totalSoup.append(BeautifulSoup(soups.text,'html.parser'))
+        elif str(type(soups)) == "<class 'str'>":
+            totalSoup.append(BeautifulSoup(soups,'html.parser'))
     return totalSoup
 
 res(site)
 # print(totalGet)
+# print(type(totalGet[0]))
 soup(totalGet)
-# print(totalSoup)
+# print(totalSoup[3])
 # findList(totalSoup)
 
 for lists in totalSoup:
@@ -65,3 +88,12 @@ for lists in totalSoup:
             site['daum']['link'].append(i.attrs['href'])
             site['daum']['title'].append(i.text)
         totalList = []
+
+    totalList = lists.find_all('a', class_ = 'storyblock_title_link')
+    if totalList is not None:
+        for i in totalList:
+            site['daily']['link'].append(i.attrs['href'])
+            site['daily']['title'].append(i.text)
+        totalList = []
+
+print(site['daily']['link'][3],site['daily']['title'][3])
