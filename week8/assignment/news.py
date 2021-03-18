@@ -41,14 +41,15 @@ def res(a):
             url['url'] = 'https://www.dailytelegraph.com.au/search-results/'
             driver.get(url['url'])
             search = driver.find_element_by_css_selector(".search_box_form .search_box_input")
-            time.sleep(3)
+            # time.sleep(1)
             search.click()
-            time.sleep(3)
+            time.sleep(1)
             search.send_keys('corona')
             time.sleep(7)
             page = driver.page_source
             totalGet.append(page)
             # print(url['url'])
+
     return totalGet
 
 def soup(b):
@@ -60,40 +61,50 @@ def soup(b):
             totalSoup.append(BeautifulSoup(soups,'html.parser'))
     return totalSoup
 
+def li(c):
+    for lists in c:
+        totalList = lists.find_all('a', class_ = 'news_tit')
+        if totalList is not None:
+            for i in totalList:
+                site['naver']['link'].append(i.attrs['href'])
+                site['naver']['title'].append(i.attrs['title'])
+            totalList = []
+        
+        totalList = lists.find_all('a', class_ = 'story__headline__link')
+        if totalList is not None:
+            for i in totalList:
+                site['nine']['link'].append(i.attrs['href'])
+                site['nine']['title'].append(i.text)
+            totalList = []
+
+        totalList = lists.find_all('a', class_ = 'f_link_b')
+        if totalList is not None:
+            for i in totalList:
+                site['daum']['link'].append(i.attrs['href'])
+                site['daum']['title'].append(i.text)
+            totalList = []
+
+        totalList = lists.find_all('a', class_ = 'storyblock_title_link')
+        if totalList is not None:
+            for i in totalList:
+                site['daily']['link'].append(i.attrs['href'])
+                site['daily']['title'].append(i.text)
+            totalList = []
+    return site
+
 res(site)
 # print(totalGet)
 # print(type(totalGet[0]))
 soup(totalGet)
 # print(totalSoup[3])
 # findList(totalSoup)
-
-for lists in totalSoup:
-    totalList = lists.find_all('a', class_ = 'news_tit')
-    if totalList is not None:
-        for i in totalList:
-            site['naver']['link'].append(i.attrs['href'])
-            site['naver']['title'].append(i.attrs['title'])
-        totalList = []
-    
-    totalList = lists.find_all('a', class_ = 'story__headline__link')
-    if totalList is not None:
-        for i in totalList:
-            site['nine']['link'].append(i.attrs['href'])
-            site['nine']['title'].append(i.text)
-        totalList = []
-
-    totalList = lists.find_all('a', class_ = 'f_link_b')
-    if totalList is not None:
-        for i in totalList:
-            site['daum']['link'].append(i.attrs['href'])
-            site['daum']['title'].append(i.text)
-        totalList = []
-
-    totalList = lists.find_all('a', class_ = 'storyblock_title_link')
-    if totalList is not None:
-        for i in totalList:
-            site['daily']['link'].append(i.attrs['href'])
-            site['daily']['title'].append(i.text)
-        totalList = []
+li(totalSoup)
 
 print(site['daily']['link'][3],site['daily']['title'][3])
+# for i in site.items():
+#     # print(type(i))
+#     if i[0] == 'naver':
+#         print(i)
+#     elif i[0] == 'daily':
+#         print(i)
+    
