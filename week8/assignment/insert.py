@@ -2,6 +2,16 @@ import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
+import pymysql
+
+conn = pymysql.connect(
+    host = '', # host name
+    user = '', # user name
+    password = '', # password
+    db = '', # db name
+    charset = ''
+)
+curs = conn.cursor()
 
 site = {
     'naver' : {
@@ -30,7 +40,7 @@ totalGet = []
 totalSoup = []
 totalList = []
 
-driver = webdriver.Chrome('D:\\altole\\altole\\week8\\chromedriver.exe')
+driver = webdriver.Chrome('C:\\Users\\lsh93\\Documents\\html\\altole\\week8\\chromedriver')
 
 def res(a):
     for url in a.values():
@@ -69,6 +79,9 @@ def li(c):
             for i in totalList:
                 site['naver']['link'].append(i.attrs['href'])
                 site['naver']['title'].append(i.attrs['title'])
+                sql = "insert into news(site,title,link) values('naver',%s,%s)"
+                curs.execute(sql,(i.attrs['title'],i.attrs['href']))
+                conn.commit()
             totalList = []
         
         totalList = lists.find_all('a', class_ = 'story__headline__link')
@@ -76,6 +89,9 @@ def li(c):
             for i in totalList:
                 site['nine']['link'].append(i.attrs['href'])
                 site['nine']['title'].append(i.text)
+                sql = f"insert into news(site,title,link) values('nine',%s,%s)"
+                curs.execute(sql,(i.text,i.attrs['href']))
+                conn.commit()
             totalList = []
 
         totalList = lists.find_all('a', class_ = 'f_link_b')
@@ -83,6 +99,9 @@ def li(c):
             for i in totalList:
                 site['daum']['link'].append(i.attrs['href'])
                 site['daum']['title'].append(i.text)
+                sql = f"insert into news(site,title,link) values('daum',%s,%s)"
+                curs.execute(sql,(i.text,i.attrs['href']))
+                conn.commit()
             totalList = []
 
         totalList = lists.find_all('a', class_ = 'storyblock_title_link')
@@ -90,6 +109,9 @@ def li(c):
             for i in totalList:
                 site['daily']['link'].append(i.attrs['href'])
                 site['daily']['title'].append(i.text)
+                sql = f"insert into news(site,title,link) values('daily',%s,%s)"
+                curs.execute(sql,(i.text,i.attrs['href']))
+                conn.commit()
             totalList = []
     return site
 
@@ -105,13 +127,17 @@ li(totalSoup)
 # print(potal)
 # print(type(potal))
 
-for i in range(0,4):
-    if list(site.keys())[i] == 'naver':
-        print('naver')
-    elif str(site.keys()[i]) == 'daum':
-        print('daum')
-    elif str(site.keys()[i]) == 'nine':
-        print('nine')
+# for i in range(0,4):
+#     if list(site.keys())[i] == 'naver':
+#         # print('naver')
+#         for naver in site['naver']['title']:
+#             sql = f"insert into news(site,title,link) values('naver',)"
+#     elif list(site.keys())[i] == 'daum':
+#         # print('daum')
+#
+#     elif list(site.keys())[i] == 'nine':
+#         # print('nine')
+
 
 
 # for values in site.values():
