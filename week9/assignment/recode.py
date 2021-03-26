@@ -1,5 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
+from selenium import webdriver
+import time
+import pymysql
+
+
+conn = pymysql.connect(
+    host = '3.35.236.237',
+    user = 'root',
+    password = 'Hoho4026!',
+    db = 'crawling',
+    charset = 'utf8'
+)
+curs = conn.cursor()
 
 site = {
     'naver' : {
@@ -51,12 +64,12 @@ def getNews(name, html):
         for i in bsList:
             news['title'].append(i.attrs['title'])
             news['link'].append(i.attrs['href'])
-    if (name == 'daum'):
+    elif (name == 'daum'):
         bsList = bs.find_all('a', class_='f_link_b')
         for i in bsList:
             news['title'].append(i.text)
             news['link'].append(i.attrs['href'])
-    if (name == 'nine'):
+    elif (name == 'nine'):
         bsList = bs.find_all('a', class_='story__headline__link')
         for i in bsList:
             news['title'].append(i.text)
@@ -68,4 +81,17 @@ def getNews(name, html):
 for i in site.values():
     html = getHtml(i['url'],i['type'])
     news = getNews(i['name'],html)
-    print(news)
+    # print(news)
+
+    for j in range(0, len(news['title'])):
+        selectSql = 'select * from news where link = %s'
+        curs.execute(selectSql, (news['link'][j]))
+        selectResult = curs.fetchall()
+
+        if (len(selectResult) > 0):
+            updateSql = 'update news set title = %s where link = %s'
+            curs.execute(updateSql, (news['title'][j],news['link'][j]))
+        else:
+            insertSql = 'insert into news(site,title,link) values(%s,%s,%s)'
+            curs.execute(insertSql, (i['name'],news['title'][j],news['link'][j]))
+    conn.commit()
